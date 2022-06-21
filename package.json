@@ -1,0 +1,27 @@
+{
+  "name": "ExtrovertedFairLivedistro",
+  "version": "1.0.0",
+  "engines": {
+    "node": "14.x"
+  },
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "he": "^1.2.0",
+    "http": "^0.0.1-security",
+    "socket.io": "^2.3.0",
+    "basic-ftp": "^4.6.3",
+    "ftp": "^0.3.10",
+    "file-type": "^16.3.0",
+    "socketio-file-upload": "^0.7.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

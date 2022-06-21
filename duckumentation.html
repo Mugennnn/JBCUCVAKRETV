@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Socket.io Events & API Documentation</title>
+<meta name="title" content="API documentation">
+<meta name="description" content="Duck + Documentation = What's wrong with you!?">
+</head>
+<body>
+<h1>Welcome to the API documentation!</h1>
+Contents:<br>
+Socket.io:<br>
+<a href="#user-joined">user joined</a><br>
+<a href="#user-left">user left</a><br>
+<a href="#message">message</a><br>
+<a href="#update-users">update users</a><br>
+<a href="#user-change-nick">user change nick</a><br>
+<a href="#voice-connect">voice_connect</a><br>
+<a href="#voice-connectvc">voice_connectvc</a><br>
+<a href="#voice-disconnect">voice_disconnect</a><br>
+<a href="#sendvoice">sendvoice</a><br>
+<a href="#get-voice-users">get_voice_users</a><br>
+<a href="#getvoice">getvoice</a><br>
+<a href="#vclts">vclts (experemental)</a><br>
+<a href="#vclt-resp">vclt_resp (experemental)</a><br>
+<a href="#delet">delet</a><br>
+<a href="#edit">edit</a><br>
+<a href="#delet">delet</a><br>
+<a href="#kick">kick</a><br>
+<a href="#delet-adm">delet_adm</a><br>
+<a href="#edit-adm">edit_adm</a><br>
+<a href="#nameban">nameban</a><br>
+<a href="#type">type</a><br>
+<a href="#typing">typing</a><br>
+HTTP:<br>
+<a href="#fileapi">FileAPI</a><br>
+<a href="#res">RES</a><br>
+<label id="user-joined"/>
+<h1>user joined</h1><br>
+Type: bidirectional<br>
+DataType: JSON<br>
+Data: nick - user nick, color - user nickname color, home - user id;<br>
+Example (receive):<br>
+<code>
+socket.on("user joined", function(data){
+    socket.send("Welcome to the... (duck?), "+data.nick+"!")
+});
+</code><br>
+Example (send):<br>
+<code>
+socket.emit("user joined", {nick: "TestBot", color: "green"});
+</code><br>
+<hr>
+<label id="user-left"/>
+<h1>user left</h1><br>
+Type: receive<br>
+DataType: Object<br>
+Data: User data object<br>
+Syntax: socket.on("user left",function(user){});<br>
+Example:<br>
+<code>
+socket.on("user left", function(data){
+    socket.send("user left :(");
+});
+</code><br>
+<hr>
+<label id="message"/>
+<h1>message</h1><br>
+Type: bidirectional<br>
+DataType: String,JSON<br>
+Data: nick - user nick, color - user nickname color, home - user id, msg - message content, id - message ID, files - attached file data;<br>
+Syntax (send): socket.emit("message", [String:message],[JSON:file data]);<br>
+-or-<br>
+socket.send([String:message]);<br>
+Example (receive):<br>
+<code>
+socket.on("message", function(data){
+    if (data.msg == "$test"){socket.send("Duck, it works!");}
+});
+</code><br>
+Example (send):<br>
+<code>
+socket.emit("message", "duck");
+</code><br>
+<hr>
+<label id="update-users"/>
+<h1>update users</h1><br>
+Type: receive<br>
+DataType: Object<br>
+Data: Server's connectedusers object<br>
+Syntax: socket.on("update users",function(users){});<br>
+Example:<br>
+<code>
+socket.on("update users", function(data){
+    socket.send("user list updated!");
+});
+</code><br>
+<hr>
+<label id="user-change-nick"/>
+<h1>user change nick</h1><br>
+Type: receive<br>
+DataType: Object, Object<br>
+Data: Server's connectedusers object<br>
+Syntax: socket.on("user change nick",function(old,new){});<br>
+Example:<br>
+<code>
+socket.on("user change nick, function(old,new){
+    socket.send("user changed nick from:"+old.nick+" to: "+new.nick+".");
+});
+</code><br>
+<hr>
+<label id="voice-connect"/>
+<h1>voice_connect</h1><br>
+Type: send<br>
+DataType: nothing<br>
+Data: nothing<br>
+Syntax: socket.emit("voice_connect");<br>
+Example:<br>
+<code>
+socket.emit("voice_connect");
+</code><br>
+<hr>
+<label id="voice-connectvc"/>
+<h1>voice_connectvc</h1><br>
+Type: send<br>
+DataType: nothing<br>
+Data: nothing<br>
+Syntax: socket.emit("voice_connectvc");<br>
+Example:<br>
+<code>
+socket.emit("voice_connectvc");
+</code><br>
+<hr>
+<label id="voice-disconnect"/>
+<h1>voice_disconnect</h1><br>
+Type: send<br>
+DataType: nothing<br>
+Data: nothing<br>
+Syntax: socket.emit("voice_disconnect");<br>
+Example:<br>
+<code>
+socket.emit("voice_disconnect");
+</code><br>
+<hr>
+<label id="sendvoice"/>
+<h1>sendvoice</h1><br>
+Type: send<br>
+DataType: String,Buffer<br>
+Data: [argument#1] - mime type, [argument#2] - data with voice/video<br>
+Special: set mimetype to "syscall:reset" and data to "syscall" to remove latest image for viewers.<br>
+Syntax: socket.emit("sendvoice", [String:mime],[Buffer:video/voice data]);<br>
+Example:<br>
+<code>
+socket.emit("sendvoice", "audio/mpeg", fs.readFileSync("quack.mp3"));
+</code><br>
+<hr>
+<label id="get-voice-users"/>
+<h1>get_voice_users</h1><br>
+Type: receive<br>
+DataType: Array<br>
+Data: Array with list of users<br>
+Special: Can be called using <a href="#voice-connect">voice_connect</a><br>
+Syntax: socket.on("get_voice_users",function(users){});<br>
+Example:<br>
+<code>
+socket.on("get_voice_users", function(data){
+    socket.send("New voice user joined!");
+});
+</code><br>
+<hr>
+<label id="getvoice"/>
+<h1>getvoice</h1><br>
+Type: receive<br>
+DataType: JSON<br>
+DataFormat: {"duck": {mime: "audio/mpeg", data: [Buffer]}};<br>
+Syntax: socket.on("getvoice",function(data){});<br>
+Example:<br>
+<code>
+socket.on("getvoice", function(data){
+    fs.writeFileSync("duckvoice.mp3", data["duck"].data);
+});
+</code><br>
+<hr>
+<label id="vclts"/>
+<h1>vclts</h1><br>
+Type: send<br>
+DataType: nothing<br>
+Data: nothing<br>
+Syntax: socket.emit("vclts");<br>
+Example:<br>
+<code>
+socket.emit("vclts");
+</code><br>
+<hr>
+<label id="vclt-resp"/>
+<h1>vclt_resp</h1><br>
+Type: receive<br>
+DataType: Array<br>
+Data: Array of user pings<br>
+Syntax: socket.on("vclt_resp",function(pings){});<br>
+Example:<br>
+<code>
+socket.on("vclt_resp", function(pings){
+    var e = 0;
+    for (i in pings){
+	e = e + pings;
+	};
+    socket.send("Average ping is:"+e / pings.length);
+});
+</code><br>
+<hr>
+<label id="delet"/>
+<h1>delet</h1><br>
+Type: send<br>
+DataType: nothing<br>
+Data: nothing<br>
+Syntax: socket.emit("delet");<br>
+Example:<br>
+<code>
+socket.emit("delet");
+</code><br>
+<hr>
+<label id="edit"/>
+<h1>edit</h1><br>
+Type: send<br>
+DataType: String<br>
+Data: [argument#1] - new message data<br>
+Syntax: socket.emit("edit", [String:message]);<br>
+Example:<br>
+<code>
+socket.emit("edit", "duck");
+</code><br>
+<hr>
+<label id="kick"/>
+<h1>kick</h1><br>
+Type: send<br>
+DataType: String,String,String<br>
+Data: [argument#1] - Nick, [argument#2] - AdminLogin, [argument#3] - AdminPassword<br>
+Syntax: socket.emit("kick", [String:user],[String:login],[String:password]);<br>
+Example:<br>
+<code>
+socket.emit("kick", "duck", "duck", "duck123");
+</code><br>
+<hr>
+<label id="edit-adm"/>
+<h1>edit_adm</h1><br>
+Type: send<br>
+DataType: String,String,String,String<br>
+Data: [argument#1] - messageID, [argument#2] - message,[argument#3] - AdminLogin, [argument#4] - AdminPassword<br>
+Syntax: socket.emit("kick", [String:messageID],[String:message],[String:login],[String:password]);<br>
+Example:<br>
+<code>
+socket.emit("edit_adm", "duck0", "Im duck!", "duck", "duck123");
+</code><br>
+<hr>
+<label id="delet-adm"/>
+<h1>delet_adm</h1><br>
+Type: send<br>
+DataType: String,String,String<br>
+Data: [argument#1] - messageID, [argument#2] - AdminLogin, [argument#3] - AdminPassword<br>
+Syntax: socket.emit("delet_adm", [String:messageID],[String:login],[String:password]);<br>
+Example:<br>
+<code>
+socket.emit("delet_adm", "duck0", "duck", "duck123");
+</code><br>
+<hr>
+<label id="nameban"/>
+<h1>nameban</h1><br>
+Type: send<br>
+DataType: String,String,String<br>
+Data: [argument#1] - Nick, [argument#2] - AdminLogin, [argument#3] - AdminPassword<br>
+Syntax: socket.emit("nameban", [String:user],[String:login],[String:password]);<br>
+Example:<br>
+<code>
+socket.emit("nameban", "duck", "duck", "duck123");
+</code><br>
+<hr>
+<label id="type"/>
+<h1>type</h1><br>
+Type: send<br>
+DataType: Boolean<br>
+Data: [argument#1] - State<br>
+Syntax: socket.emit("type", [Boolean:state]);<br>
+Example:<br>
+<code>
+socket.emit("type",true);
+setTimeout(function(){
+socket.send("duck");
+socket.emit("type",false);
+}, 3 * 1000);
+</code><br>
+<hr>
+<label id="typing"/>
+<h1>typing</h1><br>
+Type: receive<br>
+DataType: Array<br>
+Data: Array of typing users data<br>
+Syntax: socket.on("typing",function(data){});<br>
+Example:<br>
+<code>
+socket.on("typing", function(data){
+    socket.send("First user that started typing: "+data[0].nick);
+});
+</code><br>
+<hr>
+<label id="section-http"/>
+<h1>HTTP</h1>
+<label id="fileapi"/>
+<h1>FileAPI</h1><br>
+RequestMethod: GET<br>
+Path: /fileapi/get
+parameters: ?file=[filename]<br>
+Response: file<br>
+Example:<br>
+<code>
+/fileapi/get?file=duck.jpg
+</code><br>
+<hr>
+<label id="res"/>
+<h1>RES</h1><br>
+RequestMethod: GET<br>
+Path: /res.html
+parameters: ?protocol=[http|https]&amp;address=[url]<br>
+Response: redirect<br>
+Example:<br>
+<code>
+/res.html?protocol=https&address=duck.com
+</code><br>
+<hr>
+</body>
+</html>

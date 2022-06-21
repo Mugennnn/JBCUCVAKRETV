@@ -1,0 +1,9 @@
+<!DOCTYPE HTML>
+<h1>Private Server For Trollbox</h1>
+<h2>Navigate to special Trollbox, then:</h2>
+<p>Copy And Paste The Code Below in Devtools:</p>
+<!---- <code>printMsg({ date: Date.now(), nick: '~', color: 'white', style: '', home: 'local', msg: 'Trying To Connect To The Server...' })<br>socket = io('ws://extrovertedfairlivedistro--tbsharedaccount.repl.co')<br>socket.on('connection', function() {<br>printMsg({ date: Date.now(), nick: '~', color: 'white', style: '', home: 'local', msg: 'Connnected!' })<br>})<br>socket.emit('user joined',pseudo,color)<br>backmsg = "null"<br>socket.on('message', function(data) {<br>console.log(data)<br>if (data.msg == backmsg) {<br>} else {<br>backmsg = data.msg<br>setTimeout(function(){<br>printMsg({ date: Date.now(), nick: data.nick, color: data.color, style: '', home: data.home, msg: data.msg })<br>}, 1000)<br>}<br>})<br>socket.on('disconnect', function(){<br>socket.emit('disconnect')<br>})
+</code> ---->
+<code>
+$loader.script('https://extrovertedfairlivedistro--tbsharedaccount.repl.co/start.js')
+</code>
