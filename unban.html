@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Unban Form</title>
+    <link rel="stylesheet" href="/admin/style.css">
+  </head>
+  <body>
+<script>
+var logs=false;
+var id="XXXX-XXXX-XXXX-XXXX";
+</script>
+<div class="box" id="box-1">
+  <h1>Did you have logs access?</h1>
+  <p id=info style="color: red;"></p>
+  <input type="submit" onclick="logs=true;go(1)" name="" value="Yes"><input type="submit" onclick="logs=false;go(1)" name="" value="No">
+</div>
+<div class="box" id="box-2-y" style="display: none;">
+  <h1>Enter given unlock code here</h1>
+  <p id=info style="color: red;"></p>
+  <input type="text" id="X" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX" maxlength="34">
+  <em>Unlock code will be expired in 40 seconds</em>
+  <input type="submit" onclick="go(2)" name="" value="OK">
+  <input type="submit" onclick="go(0)" name="" value="Back">
+</div>
+<div class="box" id="box-2-n" style="display: none;">
+  <h1>Done</h1>
+  <p>Info for unblocking sent to console.</p>
+  <p id=info style="color: red;"></p>
+</div>
+<script>
+if (location.hash == "#stage2"){
+   logs=true;
+   go(1);
+}
+function botduck(a){
+let strarr=a.split("");
+let resarr=[];
+for (i=0; i < a.length; i++){
+resarr.push(strarr[i].charCodeAt(0));
+}
+return resarr.join(".");
+}
+function ducktob(a){
+let strarr=a.split(".");
+let resarr=[];
+for (i=0; i < strarr.length; i++){
+resarr.push(String.fromCharCode(strarr[i]));
+}
+return resarr.join("");
+}
+  function go(a){
+    if (a == 0){
+      var confirm_box = document.getElementById("box-1");
+      var uuid_box = document.getElementById("box-2-y");
+      var console_box =  document.getElementById("box-2-n");
+      document.getElementById("X").value="";
+      id="XXXX-XXXX-XXXX-XXXX";
+      uuid_box.style="display: none;";
+      console_box.style="display: none;";
+      confirm_box.style="";
+    }
+    if (a == 1){
+      var confirm_box = document.getElementById("box-1");
+      var uuid_box = document.getElementById("box-2-y");
+      var console_box =  document.getElementById("box-2-n");
+      confirm_box.style="display: none;";
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "/admin/unblockreq");
+      xhr.send();
+      if (logs){
+      uuid_box.style="";
+      }else{
+      console_box.style="";
+      }
+    }
+    if (a == 2){
+    id = document.getElementById("X").value;
+    location.href="/admin/unblock?id="+id;
+    }
+  }
+</script>
+  </body>
+</html>

@@ -1,1 +1,45 @@
-<a href="/client.html">go here</a>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Admin Login Form</title>
+    <link rel="stylesheet" href="admin/style.css">
+  </head>
+  <body>
+
+<div class="box">
+  <h1>Login</h1>
+  <input type="text" name="" placeholder="Username">
+  <input type="password" name="" placeholder="Password">
+  <p id=info style="color: red;"></p>
+  <input type="submit" onclick="go()" name="" value="Login">
+</div>
+
+<script>
+function botduck(a){
+let strarr=a.split("");
+let resarr=[];
+for (i=0; i < a.length; i++){
+resarr.push(strarr[i].charCodeAt(0));
+}
+return resarr.join(".");
+}
+function ducktob(a){
+let strarr=a.split(".");
+let resarr=[];
+for (i=0; i < strarr.length; i++){
+resarr.push(String.fromCharCode(strarr[i]));
+}
+return resarr.join("");
+}
+  function go() {
+    location.href = "/admin/main?user="+botduck(document.querySelector('input[type="text"]').value)+"&pass="+botduck(document.querySelector('input[type="password"]').value);
+  }
+  if (location.search.split('&')[0] !== "") {
+    info.innerText = unescape(location.search.split('&')[0].split('=')[1])
+  }
+</script>
+
+
+  </body>
+</html>

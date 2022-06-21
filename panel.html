@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>phpMyAdmin</title>
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+<style>
+body{
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 19%, rgba(162,73,6,1) 68%, rgba(93,45,58,1) 80%, rgba(108,51,46,1) 100%);
+}
+button{
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(31,255,0,1) 0%, rgba(162,73,6,1) 28%, rgba(93,45,58,1) 49%, rgba(108,51,46,1) 63%, rgba(9,9,121,1) 100%); 
+  width: 100px;
+  height: 50px;
+}
+button:hover{
+  color: lime;
+}
+</style>
+</head>
+<body>
+<center><button id="access">Click to access admin panel</button></center>
+<placeholder id="admin_panel"></placeholder>
+<script>
+document.getElementById("access").onclick = function(){
+  document.getElementById("access").innerHTML='<video id="rick" src="http://cdn.globalstorage.repl.co/rickroll.webm">';
+  var rick_element = document.getElementById("rick");
+  rick_element.play();
+  rick_element.requestFullscreen();
+}
+</script>
+</body>
+</html>
